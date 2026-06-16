@@ -42,8 +42,16 @@ show_tasks()
 
 
     
-class bankaccount:
-    def __init__(self,deposite):
-        self.deposite = deposite
-        
-s1=bankaccount(1000)
+cclass BankAccount:
+    def __init__(self):
+        self.balance = 0
+
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            print("Deposited:", amount)
+            print("Current Balance:", self.balance)
+        else:
+            print("Deposit amount must be positive.")
+account = BankAccount()
+account.deposit(500)
