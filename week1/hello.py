@@ -1,8 +1,10 @@
-# Day 2 Python Practice
+def mainhello():
 
-print("Hello World!")
+    # Day 2 Python Practice
 
-# User information
-name = "Ashni"
-age = 25
-is_intern = True
+    print("Hello World!")
+
+    # User information
+    name = "Ashni"
+    age = 25
+    is_intern = True
