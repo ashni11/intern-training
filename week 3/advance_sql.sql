@@ -40,32 +40,21 @@ WHERE id=3;
 SELECT * FROM posts;
 
 
-SELECT 
-	posts.id,
-	posts.title,
-	users.name AS author
-FROM posts 
-INNER JOIN users
-ON posts.user_id=users.id;
+select name,title
+from users
+inner join posts
+on users.id = posts.id
 
+select *
+from users 
+left join posts
+on users.id=posts.id;
 
-SELECT
-    users.id,
-    users.name,
-    posts.title
-FROM users
-LEFT JOIN posts
-ON users.id = posts.user_id;
-
-
-SELECT
-    users.name,
-    COUNT(posts.id) AS total_posts
-FROM users
-LEFT JOIN posts
-ON users.id = posts.user_id
-GROUP BY users.name;
-
+select name,count(*)
+from users 
+inner join posts
+on users.id=posts.id
+GROUP BY name;
 
 
 
