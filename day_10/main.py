@@ -1,10 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
-
 tasks = []
-
-
 class TaskCreate(BaseModel):
     title: str
     completed: bool = False
