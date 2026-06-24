@@ -45,6 +45,7 @@ from users
 inner join posts
 on users.id = posts.id
 
+
 select *
 from users 
 left join posts
