@@ -18,7 +18,7 @@ class BaseModelMixin:
     )
     updated_by = Column(String, nullable=True)
 
-    is_active = Column(Boolean, default=True)
+    is_active = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)
 
 
