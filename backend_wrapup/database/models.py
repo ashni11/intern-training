@@ -4,7 +4,7 @@ from sqlalchemy import Boolean, Column, DateTime, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
 
-from database import Base
+from database.database import Base
 
 
 class BaseModelMixin:

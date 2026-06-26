@@ -2,9 +2,9 @@ from uuid import UUID
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 
-import crud
-from database import get_db
-from schemas import TaskCreate, TaskResponse, TaskUpdate
+from Fastapi import crud
+from Fastapi.schemas import TaskCreate, TaskUpdate, TaskResponse
+from database.database import get_db
 
 app = FastAPI(
     title="Backend Wrapup API",
