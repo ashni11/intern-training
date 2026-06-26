@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Echo Test</title>
+</head>
+
+<body>
+
+    <h2>WebSocket Echo Test</h2>
+
+    <input
+        type="text"
+        id="message"
+        placeholder="Enter message"
+    >
+
+    <button onclick="sendMessage()">
+        Send
+    </button>
+
+    <hr>
+
+    <h3>Messages</h3>
+
+    <ul id="messages"></ul>
+
+    <script>
+
+        const websocket = new WebSocket("ws://127.0.0.1:8000/ws");
+
+        websocket.onopen = function () {
+
+            console.log("Connected to WebSocket");
+
+        };
+
+        websocket.onmessage = function (event) {
+
+            const li = document.createElement("li");
+
+            li.textContent = event.data;
+
+            document.getElementById("messages").appendChild(li);
+
+        };
+
+        websocket.onclose = function () {
+
+            console.log("Disconnected");
+
+        };
+
+        function sendMessage() {
+
+            const input = document.getElementById("message");
+
+            websocket.send(input.value);
+
+            input.value = "";
+
+        }
+
+    </script>
+
+</body>
+
+</html>
