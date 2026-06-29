@@ -1,0 +1,133 @@
+/* Reset */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* Body */
+
+body{
+    font-family:Arial, sans-serif;
+    background-color:#f4f4f4;
+    color:#333;
+    line-height:1.6;
+}
+
+/* Header */
+header{
+    background-color:#0d6efd;
+    color:white;
+    text-align:center;
+    padding:30px;
+}
+
+header p{
+    margin-top:10px;
+}
+/* About Section */
+.about{
+    display:flex;
+    align-items:center;
+    gap:30px;
+    padding:40px;
+    margin:20px;
+    background:white;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+
+}
+
+.about img{
+    width:220px;
+    height:220px;
+    border-radius:10px;
+    object-fit:cover;
+}
+
+.about-content{
+    flex:1;
+}
+
+/* Skills */
+.skills{
+    background:white;
+    margin:20px;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+.skills ul{
+    margin-top:15px;
+    padding-left:20px;
+}
+
+.skills li{
+    margin-bottom:10px;
+}
+
+.skills li:hover{
+    background-color: #222;
+    color: white;
+}
+
+/* Contact */
+.contact{
+    background:white;
+    margin:20px;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-top:15px;
+    margin-bottom:5px;
+}
+
+input,
+textarea{
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+button{
+    margin-top:20px;
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#084298;
+}
+/* Footer */
+footer{
+    background:#222;
+    color:white;
+    text-align:center;
+    padding:20px;
+    margin-top:30px;
+}
+/* Responsive Design */
+@media(max-width:768px){
+.about{
+    flex-direction:column;
+    text-align:center;
+}
+
+.about img{
+    width:180px;
+    height:180px;
+}
+}
