@@ -23,6 +23,17 @@ header{
     padding:30px;
 }
 
+.dark-theme{
+    background-color:#222;
+    color:white;
+}
+
+#themeBtn{
+    margin-top:10px;
+    padding:10px 15px;
+    cursor:pointer;
+}
+
 header p{
     margin-top:10px;
 }
@@ -48,6 +59,87 @@ header p{
 
 .about-content{
     flex:1;
+}
+
+/* list */
+.todo-section{
+    margin:30px;
+}
+
+.todo-section input{
+    padding:10px;
+    width:250px;
+}
+
+.todo-section button{
+    padding:10px 15px;
+    cursor:pointer;
+}
+
+.todo-section ul{
+    margin-top:20px;
+}
+
+/* List Items */
+
+.user-section{
+    margin:30px;
+}
+
+#fetchBtn{
+    padding:10px 15px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+#userCard img{
+    width:120px;
+    border-radius:50%;
+    margin-bottom:10px;
+}
+
+/* Quote Section */
+
+.quote-section{
+    background:white;
+    margin:20px;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.quote-section h2{
+    margin-bottom:20px;
+}
+
+#quoteBtn{
+    padding:10px 20px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    margin-bottom:20px;
+}
+
+#quoteBtn:hover{
+    background:#084298;
+}
+
+#quote{
+    font-size:20px;
+    font-style:italic;
+    line-height:1.8;
+    margin-top:10px;
+    color:#333;
+}
+
+#author{
+    margin-top:15px;
+    text-align:right;
+    font-size:18px;
+    font-weight:bold;
+    color:#0d6efd;
 }
 
 /* Skills */
@@ -119,15 +211,161 @@ footer{
     padding:20px;
     margin-top:30px;
 }
-/* Responsive Design */
-@media(max-width:768px){
-.about{
-    flex-direction:column;
-    text-align:center;
+
+
+/* Dark Theme */
+
+.dark-theme header{
+    background:#111;
 }
 
-.about img{
-    width:180px;
-    height:180px;
+.dark-theme .about,
+.dark-theme .skills,
+.dark-theme .contact,
+.dark-theme .todo-section,
+.dark-theme .user-section{
+
+    background:#333;
+    color:white;
+
 }
+
+.dark-theme input,
+.dark-theme textarea{
+
+    background:#444;
+    color:white;
+    border:1px solid #666;
+
+}
+
+.dark-theme button{
+
+    background:#0d6efd;
+    color:white;
+
+}
+
+.dark-theme footer{
+
+    background:#111;
+
+}
+.dark-theme li{
+
+    color:white;
+
+}
+.dark-theme .quote-section{
+    background:#333;
+    color:white;
+}
+
+.dark-theme #quote{
+    color:white;
+}
+
+.dark-theme #author{
+    color:#66b3ff;
+}
+
+
+/* Mobile Devices (0px - 768px) */
+
+@media screen and (max-width:768px){
+
+    header{
+        padding:20px;
+    }
+
+    .about{
+        flex-direction:column;
+        text-align:center;
+        padding:20px;
+        gap:20px;
+    }
+
+    .about img{
+        width:180px;
+        height:180px;
+    }
+
+    .todo-section,
+    .quote-section,
+    .skills,
+    .contact{
+        margin:15px;
+        padding:20px;
+    }
+
+    .todo-section input{
+        width:100%;
+        margin-bottom:10px;
+    }
+
+    .todo-section button{
+        width:100%;
+    }
+
+    form input,
+    form textarea{
+        width:100%;
+    }
+
+    button{
+        width:100%;
+    }
+
+}
+
+
+/* Tablet Devices (769px - 1024px) */
+
+@media screen and (min-width:769px) and (max-width:1024px){
+
+    .about{
+        gap:25px;
+        padding:30px;
+    }
+
+    .about img{
+        width:200px;
+        height:200px;
+    }
+
+    .todo-section,
+    .quote-section,
+    .skills,
+    .contact{
+        margin:20px;
+        padding:25px;
+    }
+
+    .todo-section input{
+        width:70%;
+    }
+
+}
+
+
+/* Laptop/Desktop (1025px and above) */
+
+@media screen and (min-width:1025px){
+
+    .about{
+        display:flex;
+        align-items:center;
+        gap:30px;
+        padding:40px;
+    }
+
+    .about img{
+        width:220px;
+        height:220px;
+    }
+
+    .todo-section input{
+        width:250px;
+    }
+
 }
