@@ -1,4 +1,4 @@
-import RandomQuote from "./TypeScript/RandomQuote";
+import RandomQuote from "../Components/RandomQuotes/RandomQuote";
 
 function App() {
   return (

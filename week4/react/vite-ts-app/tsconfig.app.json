@@ -22,5 +22,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "Interface/interfaces.ts", "TypeScript/RandomQuote.tsx", "TypeScript/App.tsx"]
+  "include": ["src", "Interface/interfaces.ts", "Components/RandomQuotes/RandomQuote.tsx", "Components/App.tsx"]
 }

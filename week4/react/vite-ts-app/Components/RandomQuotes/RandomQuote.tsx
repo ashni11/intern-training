@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Quote } from "../Interface/interfaces";
+import type { Quote } from "../../Interface/interfaces";
 
 function RandomQuote() {
   const [quote, setQuote] = useState("");
