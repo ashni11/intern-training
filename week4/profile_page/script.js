@@ -7,8 +7,6 @@ themeBtn.addEventListener("click", function () {
         themeBtn.textContent="Dark Mode";
     }
 });
-1
-
 
 const itemInput = document.getElementById("itemInput"); //Gets the textbox.
 const addBtn = document.getElementById("addBtn"); //Gets the Add button.
@@ -34,7 +32,6 @@ function renderList(){
         itemList.appendChild(li);
     });
 }
-
 
 
 // Fetch API
