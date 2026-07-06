@@ -6,14 +6,11 @@ class TaskCreate(BaseModel):
     title: str
     completed: bool = False
     message:str
-
 class TaskResponse(BaseModel):
     id: int
     title: str
     completed: bool
-
 app = FastAPI()
-
 @app.post("/tasks", response_model=TaskResponse)
 def create_task(task: TaskCreate):
     new_task = {

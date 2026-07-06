@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
 import { createUser } from "./Form.Service";
-
 type FormData = {
   username: string;
   dob: string;
   phoneNumber: string;
 };
-
 function UserForm() {
   const [formData, setFormData] = useState<FormData>({
     username: "",
     dob: "",
     phoneNumber: "",
   });
-
   const [message, setMessage] = useState("");
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -25,12 +21,10 @@ function UserForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const res = await createUser(formData);
       console.log("Success:", res.data);
       setMessage("User created successfully");
-
       setFormData({
         username: "",
         dob: "",
@@ -42,8 +36,12 @@ function UserForm() {
     }
   };
 
-  useEffect(() => {
+function UserForm() {
     console.log("User form mounted");
+}
+
+  useEffect(() => {
+    UserForm();
   }, []);
 
   return (
@@ -105,6 +103,7 @@ function UserForm() {
             Submit
           </button>
         </form>
+        {/* <button onClick={UserForm}>click me</button> */}
 
         {message && (
           <p className="mt-4 text-center text-sm font-medium text-green-600">
@@ -115,5 +114,4 @@ function UserForm() {
     </div>
   );
 }
-
 export default UserForm;
