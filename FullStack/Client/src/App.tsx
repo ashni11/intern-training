@@ -1,9 +1,13 @@
-import UserForm from "./UserForm";
+import { RouterProvider } from "@tanstack/react-router";
+import { router } from "./Routes/Routes";
+import { Toaster } from "react-hot-toast";
+
 function App() {
   return (
-    <div>
-      <UserForm />
-    </div>
+    <>
+      <RouterProvider router={router} />
+      <Toaster position="top-right" />
+    </>
   );
 }
 
