@@ -1,18 +1,23 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routes.routes import api_router
+
+from routes.user.routes import api_router
+from engine.user.database import init_db_connection
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    init_db_connection()
     print("Application startup")
     yield
     print("Application shutdown")
+
 
 app = FastAPI(
     title="Full Stack Practice API",
     lifespan=lifespan
 )
-# CORS configuration for React frontend
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],
@@ -20,6 +25,5 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-# Register only central router
-app.include_router(api_router)
 
+app.include_router(api_router)

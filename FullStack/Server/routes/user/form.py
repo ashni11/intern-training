@@ -1,11 +1,14 @@
 from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from engine.database import get_db
-from schema.form import UserCreateSchema
-from service.form import create_user_service
 
-router = APIRouter(prefix="/api/v1", tags=["Form"])
+from engine.user.database import get_db
+from schema.user.form import UserCreateSchema
+from service.user.form import create_user_service
+
+router = APIRouter()
+
+
 @router.get("/getform")
 def get_form():
     return JSONResponse(
@@ -15,10 +18,13 @@ def get_form():
             "message": "FastAPI server is running"
         }
     )
+
+
 @router.post("/createform")
 def create_form(payload: UserCreateSchema, db: Session = Depends(get_db)):
     try:
         new_user = create_user_service(payload, db)
+
         return JSONResponse(
             status_code=status.HTTP_201_CREATED,
             content={
@@ -27,7 +33,7 @@ def create_form(payload: UserCreateSchema, db: Session = Depends(get_db)):
                 "data": {
                     "id": str(new_user.id),
                     "username": new_user.username,
-                    "dob": new_user.dob,
+                    "dob": str(new_user.dob),
                     "phone_number": new_user.phone_number,
                     "created_at": str(new_user.created_at),
                     "created_by": new_user.created_by,
@@ -38,6 +44,7 @@ def create_form(payload: UserCreateSchema, db: Session = Depends(get_db)):
                 }
             }
         )
+
     except Exception as error:
         db.rollback()
         return JSONResponse(

@@ -1,19 +1,14 @@
 from uuid import UUID
-
 from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-
 from Fastapi import crud
 from Fastapi.schemas import TaskCreate, TaskUpdate
 from database.database import get_db
-
 app = FastAPI(
     title="Backend Wrapup API",
     version="1.0.0"
 )
-
-
 @app.post("/tasks", status_code=status.HTTP_201_CREATED)
 def create_task(
     task: TaskCreate,
@@ -21,7 +16,6 @@ def create_task(
 ):
     try:
         new_task = crud.create_task(db, task)
-
         return JSONResponse(
             status_code=status.HTTP_201_CREATED,
             content={
@@ -41,10 +35,8 @@ def create_task(
                 }
             }
         )
-
     except HTTPException:
         raise
-
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -53,13 +45,10 @@ def create_task(
                 "message": str(e)
             }
         )
-
-
 @app.get("/tasks")
 def get_tasks(db: Session = Depends(get_db)):
     try:
         tasks = crud.get_tasks(db)
-
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={
@@ -82,7 +71,6 @@ def get_tasks(db: Session = Depends(get_db)):
                 ]
             }
         )
-
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -91,13 +79,10 @@ def get_tasks(db: Session = Depends(get_db)):
                 "message": str(e)
             }
         )
-
-
 @app.get("/tasks/{task_id}")
 def get_task(task_id: UUID, db: Session = Depends(get_db)):
     try:
         task = crud.get_task(db, task_id)
-
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={
@@ -117,7 +102,6 @@ def get_task(task_id: UUID, db: Session = Depends(get_db)):
                 }
             }
         )
-
     except HTTPException as e:
         return JSONResponse(
             status_code=e.status_code,
@@ -126,7 +110,6 @@ def get_task(task_id: UUID, db: Session = Depends(get_db)):
                 "message": e.detail
             }
         )
-
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -135,8 +118,6 @@ def get_task(task_id: UUID, db: Session = Depends(get_db)):
                 "message": str(e)
             }
         )
-
-
 @app.put("/tasks/{task_id}")
 def update_task(
     task_id: UUID,
@@ -189,7 +170,6 @@ def update_task(
 def delete_task(task_id: UUID, db: Session = Depends(get_db)):
     try:
         crud.delete_task(db, task_id)
-
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={
@@ -206,7 +186,6 @@ def delete_task(task_id: UUID, db: Session = Depends(get_db)):
                 "message": e.detail
             }
         )
-
     except Exception as e:
         return JSONResponse(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

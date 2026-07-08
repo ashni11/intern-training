@@ -7,7 +7,6 @@ type UserItem = {
   dob: string;
   phoneNumber: string;
 };
-
 function UserForm() {
   const [formData, setFormData] = useState<UserItem>({
     username: "",
@@ -22,23 +21,17 @@ function UserForm() {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   }
-
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
     try {
       const response = await createUser(formData);
-
       toast.success(response.message || "User created successfully");
-
       setUsers((prev) => [...prev, formData]);
-
       setFormData({
         username: "",
         dob: "",
@@ -49,7 +42,6 @@ function UserForm() {
       toast.error("Failed to create user");
     }
   }
-
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       {/* Form Card */}
@@ -85,7 +77,6 @@ function UserForm() {
               className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
             />
           </div>
-
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
               Phone Number
@@ -146,5 +137,4 @@ function UserForm() {
     </div>
   );
 }
-
 export default UserForm;

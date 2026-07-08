@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
-from model.form import User
-from schema.form import UserCreateSchema
+from model.user.form import User
+from schema.user.form import UserCreateSchema
+
 
 def create_user(db: Session, payload: UserCreateSchema):
     new_user = User(
