@@ -1,9 +1,13 @@
 from pydantic import BaseModel
 from typing import Optional
+
+
 class UserCreateRequestSchema(BaseModel):
     username: str
     dob: str
     phoneNumber: str
+    password: str
+
 
 class UserResponseSchema(BaseModel):
     id: str
@@ -16,3 +20,13 @@ class UserResponseSchema(BaseModel):
     updated_by: Optional[str] = None
     is_active: bool
     is_deleted: bool
+
+
+class LoginRequestSchema(BaseModel):
+    username: str
+    password: str
+
+
+class LoginResponseDataSchema(BaseModel):
+    access_token: str
+    token_type: str

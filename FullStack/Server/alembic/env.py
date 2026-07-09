@@ -24,7 +24,7 @@ if config.config_file_name is not None:
 
 # Import Base and model
 from FullStack.Server.engine.database import Base
-from FullStack.Server.model.user.form import User
+from FullStack.Server.model.user.user import User
 
 # Tell Alembic which metadata to track
 target_metadata = Base.metadata
