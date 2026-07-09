@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from routes.user.routes import api_router
-from engine.user.database import init_db_connection
+from engine.database import init_db_connection
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

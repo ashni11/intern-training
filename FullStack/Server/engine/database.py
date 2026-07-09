@@ -1,10 +1,9 @@
 import logging
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from engine.user.config import settings
+from engine.config import settings
 
 logger = logging.getLogger(__name__)
-
 Base = declarative_base()
 engine = None
 SessionLocal = None

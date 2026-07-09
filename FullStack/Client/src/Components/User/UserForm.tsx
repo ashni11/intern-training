@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createUser } from "../../Service/Form/Form.Service";
+import { createUser } from "../../Service/User/Form.Service";
 import toast from "react-hot-toast";
 
 type UserItem = {
@@ -27,21 +27,29 @@ function UserForm() {
     }));
   }
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    try {
-      const response = await createUser(formData);
-      toast.success(response.message || "User created successfully");
+  e.preventDefault();
+
+  try {
+    const response = await createUser(formData);
+
+    if (response.status === 201) {
+      toast.success(response.data.message || "User created successfully");
+
       setUsers((prev) => [...prev, formData]);
+
       setFormData({
         username: "",
         dob: "",
         phoneNumber: "",
       });
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to create user");
+    } else {
+      toast.error(response.data.message || "Failed to create user");
     }
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong while creating user");
   }
+}
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       {/* Form Card */}

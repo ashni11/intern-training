@@ -2,8 +2,8 @@ from fastapi import APIRouter, Depends, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
-from engine.user.database import get_db
-from schema.user.form import UserCreateSchema
+from engine.database import get_db
+from schema.user.form import UserCreateRequestSchema
 from service.user.form import create_user_service
 
 router = APIRouter()
@@ -21,7 +21,7 @@ def get_form():
 
 
 @router.post("/createform")
-def create_form(payload: UserCreateSchema, db: Session = Depends(get_db)):
+def create_form(payload: UserCreateRequestSchema, db: Session = Depends(get_db)):
     try:
         new_user = create_user_service(payload, db)
 

@@ -7,7 +7,8 @@ export interface UserPayload {
   dob: string;
   phoneNumber: string;
 }
+
 export const createUser = async (payload: UserPayload) => {
   const response = await axios.post(`${BASE_URL}/api/v1/createform`, payload);
-  return response.data;
+  return response;
 };

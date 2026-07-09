@@ -5,8 +5,8 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 
-import Home from "../Components/Form/Home";
-import UserForm from "../Components/Form/UserForm";
+import Home from "../Components/Home/Home";
+import UserForm from "../Components/User/UserForm";
 
 function RootLayout() {
   return <Outlet />;
