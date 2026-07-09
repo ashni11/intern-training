@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routes.user.routes import api_router
+from routes.routes import api_router
 from engine.database import init_db_connection
 
 @asynccontextmanager
