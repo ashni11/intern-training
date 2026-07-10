@@ -1,7 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
+from model.user.user import User
+from model.auth.auth import Auth
 from routes.routes import api_router
 from engine.database import init_db_connection
 

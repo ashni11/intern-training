@@ -5,13 +5,12 @@ from sqlalchemy.dialects.postgresql import UUID
 from engine.database import Base
 
 
-class User(Base):
-    __tablename__ = "users"
+class Auth(Base):
+    __tablename__ = "auth_users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    username = Column(String, nullable=False, unique=True, index=True)
-    dob = Column(String, nullable=False)
-    phone_number = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True, index=True)
+    password = Column(String, nullable=False)
 
     created_at = Column(DateTime, default=datetime.utcnow)
     created_by = Column(String, nullable=True, default=None)

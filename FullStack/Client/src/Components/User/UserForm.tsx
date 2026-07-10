@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { createUser } from "../../Service/User/Form.Service";
 import toast from "react-hot-toast";
 
@@ -7,12 +8,16 @@ type UserItem = {
   dob: string;
   phoneNumber: string;
 };
+
 function UserForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<UserItem>({
     username: "",
     dob: "",
     phoneNumber: "",
   });
+
   const [users, setUsers] = useState<UserItem[]>([]);
 
   useEffect(() => {
@@ -26,30 +31,31 @@ function UserForm() {
       [name]: value,
     }));
   }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await createUser(formData);
+    try {
+      const response = await createUser(formData);
 
-    if (response.status === 201) {
-      toast.success(response.data.message || "User created successfully");
+      if (response.status === 201) {
+        toast.success(response.data.message || "User created successfully");
+        setUsers((prev) => [...prev, formData]);
 
-      setUsers((prev) => [...prev, formData]);
-
-      setFormData({
-        username: "",
-        dob: "",
-        phoneNumber: "",
-      });
-    } else {
-      toast.error(response.data.message || "Failed to create user");
+        setFormData({
+          username: "",
+          dob: "",
+          phoneNumber: "",
+        });
+      } else {
+        toast.error(response.data.message || "Failed to create user");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong while creating user");
     }
-  } catch (error) {
-    console.error(error);
-    toast.error("Something went wrong while creating user");
   }
-}
+
   return (
     <div className="min-h-screen bg-gray-100 py-10">
       {/* Form Card */}
@@ -85,6 +91,7 @@ function UserForm() {
               className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-blue-500"
             />
           </div>
+
           <div>
             <label className="mb-1 block text-sm font-medium text-gray-700">
               Phone Number
@@ -106,6 +113,30 @@ function UserForm() {
             Submit
           </button>
         </form>
+
+        {/* Navigation Buttons */}
+        <div className="mt-6 flex flex-wrap gap-3">
+          <button
+            onClick={() => navigate({ to: "/" })}
+            className="rounded-lg bg-gray-600 px-4 py-2 font-medium text-white hover:bg-gray-700"
+          >
+            Back to Home
+          </button>
+
+          <button
+            onClick={() => navigate({ to: "/signup" })}
+            className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
+          >
+            Go to Sign Up
+          </button>
+
+          <button
+            onClick={() => navigate({ to: "/signin" })}
+            className="rounded-lg bg-purple-600 px-4 py-2 font-medium text-white hover:bg-purple-700"
+          >
+            Go to Sign In
+          </button>
+        </div>
       </div>
 
       {/* Submitted Users Table */}
@@ -145,4 +176,5 @@ function UserForm() {
     </div>
   );
 }
+
 export default UserForm;
