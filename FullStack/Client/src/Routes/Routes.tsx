@@ -5,50 +5,60 @@ import {
   Outlet,
 } from "@tanstack/react-router";
 
-import Home from "../Components/Home/Home";
-import UserForm from "../Components/User/UserForm";
-import SignUp from "../Components/Auth/SignUp";
 import SignIn from "../Components/Auth/SignIn";
-
-function RootLayout() {
-  return <Outlet />;
-}
+import SignUp from "../Components/Auth/SignUp";
+import Home from "../Components/Home/Home";
+import CreateUser from "../Components/User/CreateUser";
+import EditUser from "../Components/User/EditUser";
 
 const rootRoute = createRootRoute({
-  component: RootLayout,
+  component: () => <Outlet />,
 });
 
-const homeRoute = createRoute({
+const signinRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
-  component: Home,
+  component: SignIn,
 });
 
-const userFormRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/user-form",
-  component: UserForm,
-});
-
-const signUpRoute = createRoute({
+const signupRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/signup",
   component: SignUp,
 });
 
-const signInRoute = createRoute({
+const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/signin",
-  component: SignIn,
+  path: "/home",
+  component: Home,
+});
+
+const createUserRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/create",
+  component: CreateUser,
+});
+
+const editUserRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/edit/$id",
+  component: EditUser,
 });
 
 const routeTree = rootRoute.addChildren([
+  signinRoute,
+  signupRoute,
   homeRoute,
-  userFormRoute,
-  signUpRoute,
-  signInRoute,
+  createUserRoute,
+  editUserRoute,
 ]);
 
 export const router = createRouter({
   routeTree,
 });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}

@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: fullstack_postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ASHNI
+      POSTGRES_DB: FullStack_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./Server
+    container_name: fullstack_fastapi_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./Server:/app
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:ASHNI@localhost:5432/FullStack_db
+      SECRET_KEY: my_super_secret_jwt_key
+      ALGORITHM: HS256
+
+  frontend:
+    build: ./Client
+    container_name: fullstack_react_frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Client:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

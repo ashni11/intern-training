@@ -1,123 +1,130 @@
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { useNavigate } from "@tanstack/react-router";
+import toast from "react-hot-toast";
 import { signinUser } from "../../Service/Auth/Auth.Service";
 
-type SignInFormData = {
+type SignInItem = {
   email: string;
   password: string;
 };
 
 function SignIn() {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState<SignInFormData>({
+  const [formData, setFormData] = useState<SignInItem>({
     email: "",
     password: "",
   });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
+  const [loading, setLoading] = useState(false);
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement>
+  ) {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  }
+  async function handleSubmit(
+    e: React.FormEvent<HTMLFormElement>
+  ) {
+    e.preventDefault();
+    setLoading(true);
     try {
       const response = await signinUser(formData);
-
-      if (response.status === 200) {
-        toast.success(response.data.message || "Login successful");
-
-        const token = response.data?.data?.access_token;
-        if (token) {
-          localStorage.setItem("access_token", token);
-        }
-
-        setFormData({
-          email: "",
-          password: "",
+      if (response.data.status_code === 200) {
+        localStorage.setItem(
+          "access_token",
+          response.data.detail.access_token
+        );
+        toast.success(response.data.message);
+        navigate({
+          to: "/home",
         });
-
-        navigate({ to: "/" });
       } else {
-        toast.error(response.data.message || "Login failed");
+        toast.error(response.data.message);
       }
     } catch (error: any) {
-      console.error(error);
       toast.error(
-        error?.response?.data?.detail ||
-          error?.response?.data?.message ||
-          "Something went wrong while signing in"
+        error?.response?.data?.message ||
+          "Login Failed"
       );
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <div className="mx-auto w-full max-w-3xl rounded-xl bg-white p-8 shadow-lg">
-        <h1 className="mb-6 text-center text-3xl font-bold text-gray-800">
+    <div className="flex min-h-screen items-center justify-center bg-slate-100">
+
+      <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-lg">
+
+        <h1 className="mb-6 text-center text-3xl font-bold">
           Sign In
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+        >
+
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-2 block font-medium">
               Email
             </label>
+
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Enter email"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-purple-500"
+              placeholder="Enter Email"
+              className="w-full rounded-lg border px-4 py-3 outline-none focus:border-blue-500"
+              required
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">
+            <label className="mb-2 block font-medium">
               Password
             </label>
+
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter password"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-purple-500"
+              placeholder="Enter Password"
+              className="w-full rounded-lg border px-4 py-3 outline-none focus:border-blue-500"
+              required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-purple-600 py-2 font-semibold text-white hover:bg-purple-700"
+            disabled={loading}
+            className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700 disabled:bg-gray-400"
           >
-            Sign In
+            {loading ? "Signing In..." : "Sign In"}
           </button>
+
+          <p className="text-center text-sm">
+            Don't have an account?{" "}
+            <span
+              className="cursor-pointer font-semibold text-blue-600"
+              onClick={() =>
+                navigate({
+                  to: "/signup",
+                })
+              }
+            >
+              Sign Up
+            </span>
+          </p>
+
         </form>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <button
-            onClick={() => navigate({ to: "/" })}
-            className="rounded-lg bg-gray-600 px-4 py-2 font-medium text-white hover:bg-gray-700"
-          >
-            Back to Home
-          </button>
-
-          <button
-            onClick={() => navigate({ to: "/signup" })}
-            className="rounded-lg bg-green-600 px-4 py-2 font-medium text-white hover:bg-green-700"
-          >
-            Go to Sign Up
-          </button>
-        </div>
       </div>
+
     </div>
   );
 }

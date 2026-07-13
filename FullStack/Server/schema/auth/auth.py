@@ -15,7 +15,6 @@ class SignUpResponseDataSchema(BaseModel):
     updated_by: Optional[str] = None
     is_active: bool
     is_deleted: bool
-    model_config = ConfigDict(from_attributes=True)
 class SignInRequestSchema(BaseModel):
     email: str
     password: str

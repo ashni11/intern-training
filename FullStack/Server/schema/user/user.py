@@ -1,21 +1,21 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel
 from typing import Optional
-from uuid import UUID
-from datetime import datetime
 class UserCreateRequestSchema(BaseModel):
-    username: str
-    dob: str
-    phoneNumber: str
-class UserResponseSchema(BaseModel):
-    id: UUID
-    username: str
-    dob: str
+    name: str
     phone_number: str
-    created_at: datetime
+    email: str
+class UserUpdateRequestSchema(BaseModel):
+    name: str
+    phone_number: str
+    email: str
+class UserResponseSchema(BaseModel):
+    id: str
+    name: str
+    phone_number: str
+    email: str
+    created_at: str
     created_by: Optional[str] = None
-    updated_at: datetime
+    updated_at: str
     updated_by: Optional[str] = None
     is_active: bool
     is_deleted: bool
-
-    model_config = ConfigDict(from_attributes=True)

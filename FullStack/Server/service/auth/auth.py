@@ -1,52 +1,106 @@
-from datetime import datetime, timedelta, timezone
-from jose import jwt
 import bcrypt
+
+from jose import jwt
+from datetime import datetime, timedelta, UTC
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+
 from engine.config import settings
-from schema.auth.auth import SignUpRequestSchema, SignInRequestSchema
-from database.auth.auth import create_auth_user, get_auth_user_by_email
-def hash_password(password: str) -> str:
-    return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bcrypt.checkpw(plain_password.encode("utf-8"), hashed_password.encode("utf-8"))
-def create_access_token(data: dict):
-    to_encode = data.copy()
-    expire = datetime.now(timezone.utc) + timedelta(
-        minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
-    )
-    to_encode.update({"exp": expire})
-    return jwt.encode(
-        to_encode,
-        settings.SECRET_KEY,
-        algorithm=settings.ALGORITHM
-    )
-def signup_user_service(payload: SignUpRequestSchema, db: Session):
-    existing_user = get_auth_user_by_email(db, payload.email)
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already exists"
+
+from database.auth.auth import (
+    create_auth_user,
+    get_auth_user_by_email,
+)
+
+from schema.auth.auth import (
+    SignUpRequestSchema,
+    SignInRequestSchema,
+)
+
+
+class AuthService:
+
+    def create_access_token(self, data: dict):
+        data = data.copy()
+
+        expire = datetime.now(UTC) + timedelta(
+            minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
         )
-    hashed_password = hash_password(payload.password)
-    new_user = create_auth_user(db, payload, hashed_password)
-    return new_user
-def signin_user_service(payload: SignInRequestSchema, db: Session):
-    user = get_auth_user_by_email(db, payload.email)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password"
+
+        data.update({"exp": expire})
+
+        return jwt.encode(
+            data,
+            settings.SECRET_KEY,
+            algorithm=settings.ALGORITHM
         )
-    if not verify_password(payload.password, user.password):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password"
+
+    def get_auth_user_by_email(
+        self,
+        email: str,
+        db: Session
+    ):
+        return get_auth_user_by_email(
+            db,
+            email
         )
-    access_token = create_access_token(data={"sub": user.email})
-    return {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
-def logout_user_service():
-    return {"message": "Logout successful"}
+
+    def signup(
+        self,
+        payload: SignUpRequestSchema,
+        db: Session
+    ):
+        hashed_password = bcrypt.hashpw(
+            payload.password.encode("utf-8"),
+            bcrypt.gensalt()
+        ).decode("utf-8")
+
+        return create_auth_user(
+            db,
+            payload,
+            hashed_password
+        )
+
+    def signin(
+        self,
+        payload: SignInRequestSchema,
+        db: Session
+    ):
+        user = get_auth_user_by_email(
+            db,
+            payload.email
+        )
+
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password"
+            )
+
+        if not bcrypt.checkpw(
+            payload.password.encode("utf-8"),
+            user.password.encode("utf-8")
+        ):
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid email or password"
+            )
+
+        access_token = self.create_access_token(
+            {
+                "sub": user.email
+            }
+        )
+
+        return {
+            "access_token": access_token,
+            "token_type": "Bearer"
+        }
+
+    def logout(self):
+        return {
+            "message": "Logout successful"
+        }
+
+
+auth_service = AuthService()

@@ -10,10 +10,10 @@ export type SignInPayload = {
 };
 
 export const signupUser = async (payload: SignUpPayload) => {
-  return await axios.post(`${API_BASE_URL}/signup`, payload);
+  return await axios.post(`${API_BASE_URL}/auth/signup`, payload);
 };
 export const signinUser = async (payload: SignInPayload) => {
-  return await axios.post(`${API_BASE_URL}/signin`, payload);
+  return await axios.post(`${API_BASE_URL}/auth/signin`, payload);
 };
 export const logoutUser = async () => {
   return await axios.post(`${API_BASE_URL}/logout`);
